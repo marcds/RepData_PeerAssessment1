@@ -8,14 +8,48 @@ output:
 
 ## Loading and preprocessing the data
 
+# 1. Loading the data
+data <- read.csv("activity.csv", header = TRUE)
+
+# 2. Checking the data structure
+head(data)
+tail(data)
+str(data)
+dim(data)
+
+# 3. Formatting the dates
+data$date <- as.Date(data$date, "%Y-%m-%d")
 
 
 ## What is mean total number of steps taken per day?
 
+# 1. Calculating the total number of steps taken each day
+stepsbyday <- aggregate(steps ~ date, data = data, sum)
+
+# 2. Making the histogram of the data
+hist(stepsbyday$steps, col = 8, main = "Histogram of Number of Steps Taken per Day", 
+     xlab = "Total Number of Steps")
+
+# 3. Calculating Mean and Median of total number of steps taken per day
+meanSteps <- format(mean(stepsbyday$steps, na.rm = TRUE)) 
+medianSteps <- format(median(stepsbyday$steps, na.rm = TRUE))
 
 
 ## What is the average daily activity pattern?
 
+# 1. Calculating the average steps taken
+meanInterval <- aggregate(steps~interval, data, mean, na.rm = TRUE)
+
+# 2. Creating the time series plot
+plot(meanInterval$interval, meanInterval$steps, type = "l", xlab="5-Minute Interval",
+     main = "Average Number of Steps Taken by 5-Minute Interval", 
+     ylab="Average Number of Steps Across all Days")
+
+# 3. Calculating the 5-minute interval, on average across all the days in the dataset, 
+# that contains the maximum number of steps
+maxIntervalInterval <- which.max(meanInterval$interval)
+maxSteps <- round(max(meanInterval$steps),1)
+maxInterval <- meanInterval$interval[which.max(meanInterval$steps)]
 
 
 ## Imputing missing values
