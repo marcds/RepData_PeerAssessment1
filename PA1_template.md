@@ -1,9 +1,4 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
@@ -18,61 +13,8 @@ data <- read.csv("activity.csv", header = TRUE)
 
 ```r
 - head(data)
-```
-
-```
-## Warning: - not meaningful for factors
-```
-
-```
-##   steps date interval
-## 1    NA   NA        0
-## 2    NA   NA       -5
-## 3    NA   NA      -10
-## 4    NA   NA      -15
-## 5    NA   NA      -20
-## 6    NA   NA      -25
-```
-
-```r
 - tail(data)
-```
-
-```
-## Warning: - not meaningful for factors
-```
-
-```
-##       steps date interval
-## 17563    NA   NA    -2330
-## 17564    NA   NA    -2335
-## 17565    NA   NA    -2340
-## 17566    NA   NA    -2345
-## 17567    NA   NA    -2350
-## 17568    NA   NA    -2355
-```
-
-```r
-- str(data)
-```
-
-```
-## 'data.frame':	17568 obs. of  3 variables:
-##  $ steps   : int  NA NA NA NA NA NA NA NA NA NA ...
-##  $ date    : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 1 1 1 1 1 1 1 1 1 1 ...
-##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
-```
-
-```
-## Error: invalid argument to unary operator
-```
-
-```r
 - dim(data)
-```
-
-```
-## [1] -17568     -3
 ```
 
 #### 3. Formatting the dates
@@ -96,7 +38,7 @@ hist(stepsbyday$steps, col = 8, main = "Histogram of Number of Steps Taken per D
      xlab = "Total Number of Steps")
 ```
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
+![plot of chunk hist_data](./PA1_template_files/figure-html/hist_data.png) 
 
 #### 3. Calculating Mean and Median of total number of steps taken per day
 
@@ -105,6 +47,7 @@ meanSteps <- format(mean(stepsbyday$steps, na.rm = TRUE))
 
 medianSteps <- format(median(stepsbyday$steps, na.rm = TRUE))
 ```
+The mean total number of steps taken per day is 10766 and the median is 10765.
 
 ## What is the average daily activity pattern?
 
@@ -123,7 +66,7 @@ plot(meanInterval$interval, meanInterval$steps, type = "l",
      ylab="Average Number of Steps Across all Days")
 ```
 
-![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
+![plot of chunk time_series_plot](./PA1_template_files/figure-html/time_series_plot.png) 
 
 #### 3. Calculating the 5-minute interval, on average across all the days in the dataset, that contains the maximum number of steps
 
@@ -132,6 +75,7 @@ maxSteps <- round(max(meanInterval$steps),1)
 
 maxInterval <- meanInterval$interval[which.max(meanInterval$steps)]
 ```
+The 5-minute interval, on average across all the days in the dataset, that contains the maximum number of steps is 835.
 
 ## Imputing missing values
 
@@ -141,8 +85,7 @@ maxInterval <- meanInterval$interval[which.max(meanInterval$steps)]
 missingRecords <- sum(is.na(data$steps))
 ```
 
-#### 2. Replace missing step values with the mean for the entire the entire observation period using the average for the entire observation period
-
+#### 2. Replace missing step values with the mean for the entire observation period using the average for the entire observation period
 
 ```r
 stepfill = vector()
@@ -154,6 +97,8 @@ for (item in data$steps) {
         }        
 }
 ```
+The strategy used to replca missing data was to calculate average number of steps for the entire observation period.
+
 
 #### 3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
 
@@ -175,7 +120,7 @@ hist(stepsbydayNew$steps, col = 8, main="Number of Steps Taken per Day (Adjusted
      xlab="Total Number of Steps")
 ```
 
-![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14.png) 
+![plot of chunk hist_tot_steps_day](./PA1_template_files/figure-html/hist_tot_steps_day.png) 
 
 #### 6. Calculating the mean and median total number of steps taken per day
 
@@ -215,7 +160,6 @@ for (i in 1:nrow(data)){
 ```
 
 #### 5. Changing the day_type data type
-data$day_type <- as.factor(data$day_type)
 
 ```r
 data$day_type <- as.factor(data$day_type)
@@ -240,4 +184,4 @@ qplot(interval, steps, data = interval_steps, geom=c("line"), xlab="Five Minute 
       ylab = "Number of steps", main = "Average Number of Steps Taken by Day Type") + facet_wrap(~ day_type, ncol=1)
 ```
 
-![plot of chunk unnamed-chunk-23](figure/unnamed-chunk-23.png) 
+![plot of chunk plot_results](./PA1_template_files/figure-html/plot_results.png) 
