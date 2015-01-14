@@ -88,7 +88,7 @@ for (item in data$steps) {
         }        
 }
 ```
-The strategy used to replca missing data was to calculate average number of steps for the entire observation period.
+The strategy used to replicate missing data was to calculate average number of steps for the entire observation period.
 
 
 #### 3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
